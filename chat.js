@@ -1,7 +1,7 @@
 const stdin = process.openStdin();
 const net = require('net');
 
-const [username, port, reciverPort] = process.argv.slice(2)
+const [username, port, receiverPort] = process.argv.slice(2)
 
 const hostname = 'localhost';
 
@@ -16,19 +16,19 @@ const server = net.createServer((socket) => {
 });
 
 server.listen(port, hostname, () => {
-  console.log(`Accepting conections on ${hostname}:${port}`);
+  console.log(`Accepting connections on ${hostname}:${port}`);
 
   const socket = new net.Socket();
 
   socket.on('error', () => {
-    console.log('Conection to a friend was refusd retrying in 5s');
+    console.log('Connection to a friend was refused retrying in 5s');
     setTimeout(() => {
-      socket.connect(reciverPort);
+      socket.connect(receiverPort);
     }, 5000);
   });
 
-  socket.connect(reciverPort, () => {
-    console.log(`Conected to a friend ${hostname}:${reciverPort}`);
+  socket.connect(receiverPort, () => {
+    console.log(`Connected to a friend ${hostname}:${receiverPort}`);
     socket.write(`${username} has entered the chat room`);
   });
 
